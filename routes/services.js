@@ -3,7 +3,7 @@ import Services from "../models/Services.js";
 
 const router = express.Router();
 
-router.get("/services", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const services = await Services.find();
     res.json(services);
