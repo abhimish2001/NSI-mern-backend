@@ -1,12 +1,12 @@
 import express from "express";
-import Testimonial from "../models/Testimonial.js";
+import Services from "../models/Services.js";
 
 const router = express.Router();
 
-router.get("/testimonials", async (req, res) => {
+router.get("/services", async (req, res) => {
   try {
-    const testimonials = await Testimonial.find();
-    res.json(testimonials);
+    const services = await Services.find();
+    res.json(services);
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch testimonials" });
   }
