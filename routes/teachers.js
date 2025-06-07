@@ -1,11 +1,11 @@
 import express from "express";
-import Teacher from "../models/teachers";
+import Teachers from "../models/Teacher.js";
 
 const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
-    const services = await Teacher.find();
+    const services = await Teachers.find();
     res.json(services);
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch teachers" });
