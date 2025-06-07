@@ -16,7 +16,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/testimonials", testimonial);
 app.use("/api/services", service);
-app.use("api/teachers", teachers);
+app.use("/api/teachers", teachers);
 
 mongoose
   .connect(process.env.MONGO_URI)
