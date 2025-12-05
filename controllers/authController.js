@@ -4,10 +4,10 @@ import User from "../models/User.js";
 
 export const registerUser = async (req, res) => {
   try {
-    const { fname, lname, email, password, role } = req.body;
+    const { fullname, email, password } = req.body;
 
     // Validate required fields
-    if (!fname || !lname || !email || !password || !role) {
+    if (!fullname || !email || !password) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
@@ -18,29 +18,21 @@ export const registerUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = await User.create({
-      fname,
-      lname,
+      fullname,
       email,
       password: hashedPassword,
-      role,
     });
 
-    const token = jwt.sign(
-      { id: newUser._id, role: newUser.role },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: "7d",
-      }
-    );
+    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
 
     res.status(201).json({
       token,
       user: {
         id: newUser._id,
-        fname: newUser.fname,
-        lname: newUser.lname,
+        fullname: newUser.fullname,
         email: newUser.email,
-        role: newUser.role,
       },
     });
   } catch (error) {
@@ -60,22 +52,16 @@ export const loginUser = async (req, res) => {
     if (!isMatch)
       return res.status(400).json({ message: "Invalid email or password" });
 
-    const token = jwt.sign(
-      { id: user._id, role: user.role },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: "7d",
-      }
-    );
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
 
     res.json({
       token,
       user: {
         id: user._id,
-        fname: user.fname,
-        lname: user.lname,
+        fullname: user.fullname,
         email: user.email,
-        role: user.role,
       },
     });
   } catch (error) {
